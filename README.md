@@ -1,6 +1,6 @@
 # bls-data-pipeline
 Code, assets and associated documentation for BLS and Data USA syncing and reporting
-## Task 1 - BLSDataUpdate.py and Associated BLS Datasets
+## Task 1 - [BLSDataUpdate.py](https://github.com/multibdoyle/bls-data-pipeline/blob/main/BLSDataUpdate.py) and Associated BLS Datasets
 The script republishes the open dataset at https://download.bls.gov/pub/time.series/pr/ to the S3 bucket 'bls-data-sharing.'
 The script, when executed, should keep the s3 bucket in sycn with the source when data on the website is updated, added or deleted. The script should be able to handle added or removed files, and will not upload the same file more than once. 
 Before running, ensure your AWS environment variables are set (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY). 
@@ -21,11 +21,11 @@ Below are links to each file's S3 download location; these pre-signed URLs are v
 * [pr.txt.csv](https://bls-data-sharing.s3.amazonaws.com/pr.txt.csv?AWSAccessKeyId=AKIAYAMWB76KNHT5AIMB&Signature=nN%2F9ClUMWex4K0zchL%2F2eFNcX3I%3D&Expires=1746727155)
 
 
-## Task 2 - DataUSAJSONPull.py update to s3 
+## Task 2 - [DataUSAJSONPull.py](https://github.com/multibdoyle/bls-data-pipeline/blob/main/DataUSAJSONPull.py) update to s3 
 The script fetches data from the API https://datausa.io/api/data?drilldowns=Nation&measures=Population and saves the results of the API call as a JSON to S3.
 Before running, ensure your AWS environment variables are set (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY). 
 
-## Task 3 - BLS and Data USA Analytics Jupyter Notebook
+## Task 3 - [BLS and Data USA Analytics Jupyter Notebook](https://github.com/multibdoyle/bls-data-pipeline/blob/main/BLS-Data-USA-Analytics.ipynb)
 The script loads the CSV file pr.data.0.Current and the json file from part 2 as Pandas dataframes, and generates several reports:
 * The mean and standard deviation of the annual US population across the years {2013, 2018] inclusive
 * The year with the max / largest sum of values for each series ID, including the summed values
