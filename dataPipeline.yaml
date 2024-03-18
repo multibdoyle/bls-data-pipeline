@@ -1,0 +1,86 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+
+Parameters:
+  DataBucketName:
+    Type: String
+    Description: The name of the S3 bucket for data.
+
+Resources:
+  SyncFilesLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SyncFilesLambdaPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Resource: !Sub "arn:aws:s3:::${DataBucketName}/*"
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "arn:aws:logs:*:*:*"
+
+  SyncFilesLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: DataUpdate.lambda_handler
+      Role: !GetAtt SyncFilesLambdaExecutionRole.Arn
+      Code:
+        S3Bucket: !Ref DataBucketName
+        S3Key: bls-data-pipeline.zip
+      Runtime: python3.8
+      Timeout: 300
+
+  DailyTriggerRule:
+    Type: AWS::Events::Rule
+    Properties:
+      ScheduleExpression: "cron(0 12 * * ? *)"
+      Targets:
+        - Arn: !GetAtt SyncFilesLambdaFunction.Arn
+          Id: "DailyTrigger"
+
+  PermissionForEventsToInvokeLambda:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !GetAtt SyncFilesLambdaFunction.Arn
+      Action: lambda:InvokeFunction
+      SourceArn: !GetAtt DailyTriggerRule.Arn
+
+  MyQueue:
+    Type: AWS::SQS::Queue
+
+  DataUSAUpdateLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: AnalysisReportUpdates.lambda_handler
+      Role: !GetAtt SyncFilesLambdaExecutionRole.Arn
+      Code:
+        S3Bucket: !Ref DataBucketName
+        S3Key: "bls-data-pipeline.zip"
+      Environment: 
+        Variables:
+          BUCKET_NAME: !Ref DataBucketName
+      Runtime: python3.8
+      Timeout: 300
+
+  DataUSAUpdateEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      EventSourceArn: !GetAtt MyQueue.Arn
+      FunctionName: !GetAtt DataUSAUpdateLambdaFunction.Arn  
+      Enabled: "True"
