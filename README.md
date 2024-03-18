@@ -21,5 +21,12 @@ Below are links to each file's S3 download location; these pre-signed URLs are v
 * [pr.txt.csv](https://bls-data-sharing.s3.amazonaws.com/pr.txt.csv?AWSAccessKeyId=AKIAYAMWB76KNHT5AIMB&Signature=nN%2F9ClUMWex4K0zchL%2F2eFNcX3I%3D&Expires=1746727155)
 
 
-## Task 2 - Source code 
-The script
+## Task 2 - DataUSAJSONPull.py update to s3 
+The script fetches data from the API https://datausa.io/api/data?drilldowns=Nation&measures=Population and saves the results of the API call as a JSON to S3.
+Before running, ensure your AWS environment variables are set (AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY). 
+
+## Task 3 - BLS and Data USA Analytics Jupyter Notebook
+The script loads the CSV file pr.data.0.Current and the json file from part 2 as Pandas dataframes, and generates several reports:
+* The mean and standard deviation of the annual US population across the years {2013, 2018] inclusive
+* The year with the max / largest sum of values for each series ID, including the summed values
+* The value for series_id = PRS30006032 and period = Q01 and the population for that given year (if available in the population dataset)
