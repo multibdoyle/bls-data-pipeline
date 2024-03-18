@@ -18,6 +18,7 @@ Below are links to each file's S3 download location; these pre-signed URLs are v
 * [pr.seasonal.csv](https://bls-data-sharing.s3.amazonaws.com/pr.seasonal.csv?AWSAccessKeyId=AKIAYAMWB76KNHT5AIMB&Signature=eS8d5w%2FvUGN1mM3Z0UInJNIlLnE%3D&Expires=1746727155)
 * [pr.sector.csv](https://bls-data-sharing.s3.amazonaws.com/pr.sector.csv?AWSAccessKeyId=AKIAYAMWB76KNHT5AIMB&Signature=CggF3gKgkT0TX87T8%2FFNd7pYwj4%3D&Expires=1746727155)
 * [pr.series.csv](https://bls-data-sharing.s3.amazonaws.com/pr.series.csv?AWSAccessKeyId=AKIAYAMWB76KNHT5AIMB&Signature=fCPmGaGmy6v6Pe1lumjmAgcPVhc%3D&Expires=1746727155)
+* [pr.txt.csv](https://bls-data-sharing.s3.amazonaws.com/pr.txt.csv?AWSAccessKeyId=AKIAYAMWB76KNHT5AIMB&Signature=nN%2F9ClUMWex4K0zchL%2F2eFNcX3I%3D&Expires=1746727155)
 
 
 ## Task 2 - Source code 
