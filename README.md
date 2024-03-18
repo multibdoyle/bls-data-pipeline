@@ -30,3 +30,7 @@ The script loads the CSV file pr.data.0.Current and the json file from part 2 as
 * The mean and standard deviation of the annual US population across the years {2013, 2018] inclusive
 * The year with the max / largest sum of values for each series ID, including the summed values
 * The value for series_id = PRS30006032 and period = Q01 and the population for that given year (if available in the population dataset)
+
+## Task 4 - Infrastructure as Code & Data Pipeline with AWS CloudFormation
+The YAML file [dataPipeline.yaml](https://github.com/multibdoyle/bls-data-pipeline/blob/main/dataPipeline.yaml) contains Lambda functions that execute the first two tasks, and includes a daily trigger rule. 
+I have also set-up an event notification on the s3 bucket 'bls-data-sharing'; the notification triggers every time a json file is uploaded to the bucket and sends a message to the SQS queue service 'jsonUploaded.' The queue URL is https://sqs.us-west-2.amazonaws.com/550607388564/dataUSAjsonUploaded. The YAML file also includes a lambda function, DataUSAUpdateLambdaFunction, which outputs the results from Part 3. 
